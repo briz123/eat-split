@@ -5,7 +5,7 @@ const initialFriends = [
     id: 118836,
     name: "Mike",
     image: "https://i.pravatar.cc/48?u=118836",
-    balance: -7,
+    balance: -4,
   },
   {
     id: 933372,
@@ -23,8 +23,7 @@ const initialFriends = [
 function Button({ children, onClick }) {
   return (
     <button className="button" onClick={onClick}>
-      {" "}
-      {children}{" "}
+      {children}
     </button>
   );
 }
@@ -58,7 +57,7 @@ function FriendsList({ friends }) {
   return (
     <ul>
       {friends.map((friend) => (
-        <Friend friend={friend} key={friends.id} />
+        <Friend friend={friend} key={friend.id} />
       ))}
     </ul>
   );
@@ -68,14 +67,15 @@ function Friend({ friend }) {
     <li>
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
+
       {friend.balance < 0 && (
         <p className="red">
-          You owe {friend.name} {Math.abs(friend.balance)}$
+          You owe {friend.name} ${Math.abs(friend.balance)}
         </p>
       )}
-      {friend.balance < 0 && (
+      {friend.balance > 0 && (
         <p className="green">
-          Your {friend.name} owes you{Math.abs(friend.balance)}$
+          Your {friend.name} owes you ${Math.abs(friend.balance)}
         </p>
       )}
       {friend.balance == 0 && <p>You and {friend.name} are even</p>}
@@ -92,11 +92,11 @@ function FormAddFriend({ onAddFriend }) {
 
     if (!name || !image) return;
 
-    const id = crypto.randomUUID;
+    const id = crypto.randomUUID();
     const newFriend = {
       id,
       name,
-      image: `${image}?={id}`,
+      image: `${image}?=${id}`,
       balance: 0,
     };
     onAddFriend(newFriend);
